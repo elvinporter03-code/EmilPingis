@@ -26,7 +26,7 @@ public class MatchMaker{
         Boolean SetOver = false;
         try{
             List<String[]> rows = CsvRowReader.readRowsFromFolder(
-            Paths.get("C:/Users/elvin/EmilPingis/Matcher/8.11.2026"), ",", true);
+            Paths.get("Matcher/8.11.2026"), ",", true);
 
             for (String[] row : rows) {           // en datapunkt i taget
             Ball Current = new Ball();

@@ -12,6 +12,13 @@ public class Ball extends Set{
     public Ball(){
 
     }
+    public int getHits(){
+        return this.Hits;
+    }
+
+    public String getHitType(){
+        return this.LastHitType;
+    }
 
     public Ball getNext(){
         return this.nextBall;
@@ -64,5 +71,17 @@ public class Ball extends Set{
         System.out.println(output); 
     }
 
+    public Ball copy(){
+        Ball c = new Ball();
+        c.Serve = this.Serve;
+        c.Hits = this.Hits;
+        c.Win = this.Win;
+        c.LastHitType = this.LastHitType;
+        c.LastZone = this.LastZone;
+        c.Net = this.Net;
+        c.Outside = this.Outside;
+        c.Miss = this.Miss;
+        return c;
+    }
  
 }
