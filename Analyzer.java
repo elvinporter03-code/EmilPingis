@@ -34,10 +34,18 @@ public abstract class Analyzer{
         System.out.println("Andel av vunna bollar som kommer efter motståndarserve: " + (1-ESWP));
         //System.out.println("Vinster: ");
         //printPhases(Wins); behöver lite fixar innan den används igen
+        System.out.println("Andel bollar som avgörs på Serve/ServeAttack: ");
+        Set serveattacks = getPhase(EmilServar, 1, 6).mergeSets(getPhase(OppServe,1,6));
+        double sac = serveattacks.getCount();
+        double serveshare = sac/t;
+        System.out.println(serveshare);
         printServeAttacks(EmilServar, OppServe, Wins);
+        System.out.println("Winrate innan långspel");
+        winRate(serveattacks);
 
     }
     public static void printServeAttacks(Set e, Set o, Set w){
+
         System.out.println("Serve winrate innan långspel: ");
         winRate(getPhase(e, 1, 6));
         System.out.println("Motståndare serve winrate innan långspel: ");
@@ -56,7 +64,26 @@ public abstract class Analyzer{
         System.out.println("Andel poäng från långa spel");
         winShare(getPhase(e.mergeSets(o), 7, 999), w);
 
-        // defense
+        System.out.println("Forehands i servespel");
+        winRate(getForeHands(getPhase(e,3,6)));
+        System.out.println("backhands i servespel");
+        winRate(getBackHands(getPhase(e,3,6)));
+
+        System.out.println("Med bollen på höger");
+        winRate(getRight(getPhase(e,3,6)));
+        System.out.println("Med bollen på vänster");
+        winRate(getLeft(getPhase(e,3,6)));
+
+        System.out.println("Forehands till Höger i servespel");
+        winRate(getRight(getForeHands(getPhase(e,3,6))));
+        System.out.println("Backhands till vänster i servespel");
+        winRate(getLeft(getBackHands(getPhase(e,3,6))));
+
+        System.out.println("hur många av dessa som går ut till forehand");
+        getShare(getForeHands(getPhase(e,3,6)), getPhase(e,3,6));
+        System.out.println("hur många av dessa som går ut till backhand");
+        getShare(getBackHands(getPhase(e,3,6)), getPhase(e,3,6));
+
     }
 
     public static void printPhases(Set s){
@@ -96,6 +123,12 @@ public abstract class Analyzer{
         double wc = w.getCount();
         double sc = getWins(s).getCount();
         double result = sc/wc;
+        System.out.println(result);
+    }
+    public static void getShare(Set a, Set b){
+        double ac = a.getCount();
+        double bc = b.getCount();
+        double result = ac/bc;
         System.out.println(result);
     }
 
@@ -184,6 +217,13 @@ public abstract class Analyzer{
 
     public static Set getExtraHits(Set s){
         return ForEachBall(s, x -> !(x.Miss));
+    }
+
+    public static Set getLeft(Set s){
+        return ForEachBall(s, x -> x.LastZone.equals("L"));
+    }
+    public static Set getRight(Set s){
+        return ForEachBall(s, x -> x.LastZone.equals("R"));
     }
 
 }
